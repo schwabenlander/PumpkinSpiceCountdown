@@ -1,0 +1,29 @@
+﻿@page "/"
+@using System.Timers
+
+<h1>Pumpkin Spice Countdown</h1>
+
+<p>Time left until pumpkin spice season: </p>
+
+<h4>@timeLeft.Days days @timeLeft.Hours hours @timeLeft.Minutes minutes @timeLeft.Seconds seconds</h4>
+
+@code {
+    Timer timer;
+
+    DateTime PumpkinSpiceLaunchDate { get; set; } = new DateTime(2020, 8, 19, 8, 0, 0);
+
+    TimeSpan timeLeft { get; set; }
+
+    protected override void OnInitialized()
+    {
+        timer = new Timer(1000d);
+        timer.Elapsed += CalculateTimeLeft;
+        timer.Start();
+    }
+
+    protected void CalculateTimeLeft(object sender, ElapsedEventArgs e)
+    {
+        timeLeft = PumpkinSpiceLaunchDate - DateTime.Now;
+        StateHasChanged();
+    }
+} 
